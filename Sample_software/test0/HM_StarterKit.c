@@ -73,35 +73,52 @@ void main(void)
 				*	O	X	X	X	*
 				*					*
 				*****************************************/
-				
 				//センサーの前に手をかざしてスタート
 				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
 					BEEP();
-					degree = 0;
-					timer = 0;
-					log_timer = 0;
-					gyro_get_ref();
-					BEEP();
-					mypos.x = mypos.y = 0;			//座標を初期化
-					mypos.dir = north;			//方角を初期化
-					log_flag = 1;
-					log_timer = 0;
-					search_adachi(GOAL_X,GOAL_Y);		//ゴールまで足立法
-					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);			//ゴールしたら180度回転する
-					mypos.dir = (mypos.dir+6) % 4;		//方角を更新
-					map_write();
-					BEEP();
-					wait_ms(100);
-					BEEP();//ゴールしたことをアピール
-					wait_ms(100);
-					BEEP();//ゴールしたことをアピール
-					search_adachi(0,0);			//スタート地点まで足立法で帰ってくる
-					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);			//帰ってきたら180度回転	
-					MOT_POWER_OFF;
-					map_write();
-					log_flag = 0;
-					BEEP();
+					//壁制御を有効にする
+					con_wall.enable = true;
+					while(1){
+						//A/D sensor
+						SCI_printf("sen_r.value: %d\n\r",sen_r.value);
+						SCI_printf("sen_l.value: %d\n\r",sen_l.value);
+						SCI_printf("sen_fr.value: %d\n\r",sen_fr.value);
+						SCI_printf("sen_fl.value: %d\n\r",sen_fl.value);
+						SCI_printf("V_bat: %d\n\r",(int)(V_bat*1000));
+						SCI_printf("sen_r.th_wall: %d\n\r",sen_r.th_wall);
+						SCI_printf("sen_l.th_wall: %d\n\r",sen_l.th_wall);
+						SCI_printf("sen_fr.th_wall: %d\n\r",sen_fr.th_wall);
+						SCI_printf("sen_fl.th_wall: %d\n\r",sen_fl.th_wall);
+						SCI_printf("con_wall.omega: %d\n\r",(int)(con_wall.omega*1000));
+						SCI_printf("speed_r: %d\n\r", (int)(speed_r*100));
+						SCI_printf("speed_l: %d\n\r", (int)(speed_l*100));
+						//gyro
+						SCI_printf("degree: %d\n\r",(int)degree*10);;			
+						SCI_printf("gyro: %d\n\r", (int)(ang_vel*1000) );
+						//encoder
+						SCI_printf("locate_r: %d\n\r",locate_r);
+						SCI_printf("locate_l: %d\n\r",locate_l);	
+					
+						//switch
+						SCI_printf("switchC: %d\n\r",SW_C);
+						SCI_printf("switchU: %d\n\r",SW_U);
+						SCI_printf("switchD: %d\n\r",SW_D);
+						wait_ms(100);
+						//画面クリアシーケンス
+						SCI_printf("\x1b[2J");				//クリアスクリーン[CLS]
+						SCI_printf("\x1b[0;0H");			//カーソルを0,0に移動
+						
+						//プッシュスイッチ用処理
+						push_switch = IOex_SWITCH();
+			
+						if(SW_C == 1){
+							BEEP();
+							break;	
+						}
+					}
 				}
+				
+				
 				
 				break;
 				
@@ -113,35 +130,21 @@ void main(void)
 				*	X	O	X	X	*
 				*					*
 				*****************************************/	
-			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-					map_copy();
-					degree = 0;
-					timer = 0;
-					gyro_get_ref();
-					BEEP();
-					mypos.x = mypos.y = 0;			//座標を初期化
-					mypos.dir = north;			//方角を初期化
-					log_flag = 1;
-					log_timer = 0;
-					fast_run(GOAL_X,GOAL_Y);		//ゴールまで足立法
-					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);			//ゴールしたら180度回転する
-					mypos.dir = (mypos.dir+6) % 4;		//方角を更新
-					map_write();
-					BEEP();
-					wait_ms(100);
-					BEEP();//ゴールしたことをアピール
-					wait_ms(100);
-					BEEP();//ゴールしたことをアピール
-					search_adachi(0,0);			//スタート地点まで足立法で帰ってくる
-					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);			//帰ってきたら180度回転	
-					MOT_POWER_OFF;
-					map_write();
-					log_flag = 0;
-					BEEP();
-				}
+				
+				BEEP();
+				//モータの回転
+				MOT_OUT_R=120; //最大値は240?
+				MOT_OUT_L=120; //最大値は240
+				
+				MOT_POWER_ON; //
+				
+				while(timer<2000);
+				MOT_OUT_R=0; //最大値は240
+				MOT_OUT_L=0; //最大値は240
+				MOT_POWER_OFF;
+				BEEP();
+				
+				
 				
 				break;
 				
@@ -154,12 +157,6 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);
-				}
 				
 				break;
 				
@@ -172,12 +169,7 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-					
-					wait_ms(500);
-				}
+				
 				
 				break;
 				
@@ -190,12 +182,8 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-	
-					wait_ms(500);		
-				}
+						
+				
 				
 				break;
 				
@@ -208,12 +196,6 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);
-				}
 				
 				break;
 				
@@ -226,12 +208,7 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);	
-				}
+				
 				
 				break;
 				
@@ -244,12 +221,7 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-					
-					wait_ms(500);
-				}
+				
 				
 				break;
 				
@@ -262,12 +234,7 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);		
-				}
+				
 				
 				break;
 				
@@ -280,12 +247,6 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);		
-				}
 
 				break;
 				
@@ -298,12 +259,6 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);			
-				}
 				
 				break;
 				
@@ -316,12 +271,7 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);		
-				}
+				
 				
 				break;
 				
@@ -335,12 +285,7 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);		
-				}
+				
 				
 				break;
 				
@@ -353,12 +298,7 @@ void main(void)
 				*					*
 				*****************************************/
 			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-
-					wait_ms(500);		
-				}
+				
 				
 				break;
 				
@@ -370,16 +310,6 @@ void main(void)
 				*	O	O	O	O	*
 				*					*
 				*****************************************/
-			
-				//センサーの前に手をかざしてスタート
-				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
-					BEEP();
-					while(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4);
-					adjust();
-					
-					BEEP();
-					wait_ms(500);
-				}
 				
 				break;
 				

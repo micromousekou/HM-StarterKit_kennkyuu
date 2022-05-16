@@ -13,223 +13,6 @@
 
 void int_cmt0(void)
 {
-	/*****************************************************************************************
-	目標速度生成
-		tar_speedの生成
-		など
-	*****************************************************************************************/
-	//直線の場合の目標速度生成
-	if(run_mode == STRAIGHT_MODE){
-		tar_speed += accel/1000.0;	//目標速度を設定加速度で更新
-		//最高速度制限
-		if(tar_speed > max_speed){
-			tar_speed = max_speed;	//目標速度を設定最高速度に設定
-		}
-				
-	
-	}else if(run_mode == TURN_MODE){
-		
-		//車体中心速度更新
-		tar_speed += accel/1000;
-		//最高速度制限
-		if(tar_speed > max_speed){
-			tar_speed = max_speed;	//目標速度を設定最高速度に設定
-		}
-		
-		//角加速度更新
-		tar_ang_vel += ang_acc/1000.0;	//目標角速度を設定加速度で更新
-		tar_degree  += (tar_ang_vel*180.0/PI)/1000.0;
-
-		
-		//左回転の場合
-		if(TURN_DIR == LEFT){
-			//最高角速度制限
-			if(tar_ang_vel > max_ang_vel){
-				tar_ang_vel = max_ang_vel;	//目標速度を設定最高速度に設定
-			}
-			if(tar_degree > max_degree){
-				tar_degree = max_degree;
-			}
-		}else if(TURN_DIR == RIGHT){
-		//右回転の場合
-			//最高角速度制限
-			if(tar_ang_vel < max_ang_vel){
-				tar_ang_vel = max_ang_vel;	//目標速度を設定最高速度に設定
-			}
-			if(tar_degree < max_degree){
-				tar_degree = max_degree;
-			}
-		}
-		
-	}else if(run_mode == NON_CON_MODE){
-		//何もしない
-		nop();	
-	}else{
-		//何もしない
-		nop();	
-	}
-	
-	/*****************************************************************************************
-	壁制御
-		横壁センサによる目標角度生成
-	*****************************************************************************************/
-	if(run_mode == STRAIGHT_MODE){
-		if(con_wall.enable == true && sen_fr.value + sen_fl.value <= (TH_SEN_FR+TH_SEN_FL)*5 )		//壁制御が許可されているかチェック
-		{
-			
-			con_wall.p_error = con_wall.error;	//過去の偏差を保存
-			
-			
-			//左右のセンサが、それぞれ使える状態であるかどうかチェックして、姿勢制御の偏差を計算
-			if( ( sen_r.is_control == true ) && ( sen_l.is_control == true ) )
-			{									//両方とも有効だった場合の偏差を計算
-				con_wall.error = sen_r.error - sen_l.error;
-			}
-			else								//片方もしくは両方のセンサが無効だった場合の偏差を計算
-			{
-				con_wall.error = 2.0 * (sen_r.error - sen_l.error);	//片方しか使用しないので2倍する
-			}
-			
-			
-			//DI制御計算
-			con_wall.diff = con_wall.error - con_wall.p_error;	//偏差の微分値を計算
-			con_wall.sum += con_wall.error;				//偏差の積分値を計算
-			
-			if(con_wall.sum > con_wall.sum_max)			//偏差の積分値の最大値を制限
-			{
-				con_wall.sum = con_wall.sum_max;
-			}
-			else if(con_wall.sum < (-con_wall.sum_max))		//偏差の積分値の最低値を制限
-			{
-				con_wall.sum = -con_wall.sum_max;
-			}
-
-			con_wall.p_omega = con_wall.omega;
-			con_wall.omega = con_wall.kp * con_wall.error * 0.5 + con_wall.p_omega * 0.5;	//現在の目標角速度[rad/s]を計算
-			tar_ang_vel = con_wall.omega;
-		}else{
-			tar_ang_vel = 0;
-		}
-		
-	}else if(run_mode == NON_CON_MODE){	
-			//何もしない
-			nop();
-	}else{
-		nop();	
-	}
-	
-	/*****************************************************************************************
-	壁制御かスラロームの理想値によって生成された
-	目標速度と目標角角度の積分
-	*****************************************************************************************/
-	I_tar_speed += tar_speed;
-	if(I_tar_speed >30*10000000000){
-		I_tar_speed = 30*10000000000;
-	}else if(I_tar_speed < -1*10000000000){
-		I_tar_speed = 1*10000000000;
-	}
-	
-	I_tar_ang_vel += tar_ang_vel;
-	if(I_tar_ang_vel >30*10000000000){
-		I_tar_ang_vel = 30*10000000000;
-	}else if(I_tar_ang_vel < -1*10000000000){
-		I_tar_ang_vel = 1*10000000000;
-	}
-	/*****************************************************************************************
-	目標速度の偏差から出力電圧にフィードバック
-		
-	*****************************************************************************************/
-	//フィードバック制御
-	V_r = V_l = 0.0;
-	if(run_mode == STRAIGHT_MODE || run_mode == TURN_MODE){
-	//直進時のフィードバック制御
-		//左右モータのフィードバック
-		//速度に対するP制御
-		V_r += 1 * (tar_speed - speed) *SPEED_KP/1.0; //15目標値付近で発振
-		V_l += 1 * (tar_speed - speed) *SPEED_KP/1.0;
-		//速度に対するI制御
-		V_r += 1 * (I_tar_speed - I_speed) *SPEED_KI/1.0; //(0.4-0.3)*0.1 -> 0.01 
-		V_l += 1 * (I_tar_speed - I_speed) *SPEED_KI/1.0;
-		//速度に対するD制御
-		V_r -= 1 * (p_speed - speed) *SPEED_KD/1.0; //(0.4-0.3)*0.1 -> 0.01 
-		V_l -= 1 * (p_speed - speed) *SPEED_KD/1.0;
-
-		//角速度に対するP制御
-		V_r += 1 * (tar_ang_vel - ang_vel) *(OMEGA_KP/100.0);
-		V_l -= 1 * (tar_ang_vel - ang_vel) *(OMEGA_KP/100.0);
-		//角速度に対するI制御
-
-		V_r += 1 * (I_tar_ang_vel - I_ang_vel) *(OMEGA_KI/100.0); //(0.4-0.3)*0.1 -> 0.01 
-		V_l -= 1 * (I_tar_ang_vel - I_ang_vel) *(OMEGA_KI/100.0);
-		//角速度に対するD制御
-
-		V_r += 1 * (p_ang_vel - ang_vel) *(OMEGA_KD/100.0); //(0.4-0.3)*0.1 -> 0.01 
-		V_l -= 1 * (p_ang_vel - ang_vel) *(OMEGA_KD/100.0);
-
-	}else if(run_mode == NON_CON_MODE){
-		//何もしない
-		nop();
-	}else{
-		//何もしない
-		nop();	
-	}
-	
-	/*****************************************************************************************
-	出力電圧からモータの回転方向を決定
-		電圧は絶対値を入力するため、
-		正の値の時はモータを正転設定にして、電圧はそのまま
-		負の値の時はモータを逆転設定にして、電圧を反転する
-	*****************************************************************************************/
-	if(run_mode != TEST_MODE){
-		//右モータの出力電圧が正の場合
-		if(V_r > 0){
-			//モータを正転に設定
-			MOT_CWCCW_R = MOT_R_FORWARD;	//右モータを正転に設定
-			//V_r = V_r;			//電圧は正なのでそのまま
-		}else{
-		//右モータの出力電圧が負の場合
-			MOT_CWCCW_R  = MOT_R_BACK;	//右モータを逆回転に設定
-			V_r = -V_r;			//電圧を正の値へ反転
-		}
-		
-		//左モータの出力電圧が正の場合
-		if(V_l > 0){
-			//モータを正転に設定
-			MOT_CWCCW_L = MOT_L_FORWARD;	//左モータを正転に設定
-			//V_l = V_l;			//電圧は正なのでそのまま
-		}else{
-		//左モータの出力電圧が負の場合
-			MOT_CWCCW_L  = MOT_L_BACK;	//左モータを逆回転に設定
-			V_l = -V_l;			//電圧を正の値へ反転
-		}
-	}	
-	/*****************************************************************************************
-	出力電圧の制限
-		モータへの出力電圧の上限を2Vに制限
-	*****************************************************************************************/
-	//右モータに印加する電圧が2.0Vを超えたら強制的に2.0Vに変更
-	if(V_r > 2.0){
-		V_r = 2.0;
-	}
-	//左モータに印加する電圧が2.0Vを超えたら強制的に2.0Vに変更
-	if(V_l > 2.0){
-		V_l = 2.0;
-	}
-	
-	/*****************************************************************************************
-	モータへ出力
-		
-	*****************************************************************************************/
-	
-	//バッテリー電圧からデューティを計算
-	Duty_r = V_r/V_bat;
-	Duty_l = V_l/V_bat;
-	
-	//モータにPWMを出力
-	if(run_mode != TEST_MODE){
-		MOT_OUT_R =(short)(240.0 * Duty_r);
-		MOT_OUT_L =(short)(240.0 * Duty_l);
-	}
 	
 	/*****************************************************************************************
 	タイマのカウント
@@ -268,26 +51,7 @@ void int_cmt1(void)		//センサ読み込み用り込み
 			SLED_R = 0;					//LED消灯
 			
 			sen_r.value = (S12AD.ADDR2 - sen_r.d_value);	//値を保存
-
-			if(sen_r.value > sen_r.th_wall)			//壁の有無を判断
-			{
-				sen_r.is_wall = true;			//右壁あり
-			}
-			else
-			{
-				sen_r.is_wall = false;			//右壁なし
-			}
 			
-			if(sen_r.value > sen_r.th_control)		//制御をかけるか否かを判断
-			{
-				sen_r.error = sen_r.value - sen_r.ref;	//制御をかける場合は偏差を計算
-				sen_r.is_control = true;		//右センサを制御に使う
-			}
-			else
-			{
-				sen_r.error = 0;			//制御に使わない場合は偏差を0にしておく
-				sen_r.is_control = false;		//右センサを制御に使わない
-			}			
 			break;
 
 
@@ -308,14 +72,6 @@ void int_cmt1(void)		//センサ読み込み用り込み
 
 			sen_fl.value = (S12AD.ADDR0 - sen_fl.d_value);	//値を保存
 
-			if(sen_fl.value > sen_fl.th_wall)		//壁の有無を判断
-			{
-				sen_fl.is_wall = true;			//左前壁あり
-			}
-			else
-			{
-				sen_fl.is_wall = false;			//左前壁なし
-			}
 			break;
 
 
@@ -335,15 +91,7 @@ void int_cmt1(void)		//センサ読み込み用り込み
 			SLED_FR = 0;					//LED消灯
 			
 			sen_fr.value = (S12AD.ADDR6 - sen_fr.d_value);	//値を保存
-
-			if(sen_fr.value > sen_fr.th_wall)		//壁の有無を判断
-			{
-				sen_fr.is_wall = true;			//右前壁あり
-			}
-			else
-			{
-				sen_fr.is_wall = false;			//右前壁なし
-			}			
+			
 			break;
 
 
@@ -364,26 +112,6 @@ void int_cmt1(void)		//センサ読み込み用り込み
 			
 			sen_l.value = (S12AD.ADDR1 - sen_l.d_value);	//値を保存
 			
-			if(sen_l.value > sen_l.th_wall)			//壁の有無を判断
-			{
-				sen_l.is_wall = true;			//左壁あり
-			}
-			else
-			{
-				sen_l.is_wall = false;			//左壁なし
-			}
-			
-			if(sen_l.value > sen_l.th_control)		//制御をかけるか否かを判断
-			{
-				sen_l.error = sen_l.value - sen_l.ref;	//制御をかける場合は偏差を計算する
-				sen_l.is_control = true;		//左センサを制御に使う
-			}
-			else
-			{
-				sen_l.error = 0;			//制御に使わない場合は偏差を0にしておく
-				sen_l.is_control = false;		//左センサを制御に使わない
-			}
-
 			break;
 	}
 	
