@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <MicomToolCommonProjectFile Version="1.00">
-  <CreatorType Name="CubeSuite+" Version="V6.00.00  [16 Jun 2017]" />
+  <CreatorType Name="CubeSuite+" Version="V8.07.00  [01 Dec 2021]" />
   <Placeholders>
     <PlaceholderPrefix>%</PlaceholderPrefix>
     <PlaceholderPostfix>%</PlaceholderPostfix>
@@ -19,8 +19,13 @@
       <Path>typedefine.h</Path>
       <Path>vect.h</Path>
     </Files>
+    <DebugOptions>
+      <DebugTool>Simulator</DebugTool>
+      <ConnectSettings />
+      <DebugToolSettings />
+    </DebugOptions>
     <Device Series="RX">R5F5631PDxFL</Device>
-    <BuildOptions Name="CC-RX" Version="V2.07.00">
+    <BuildOptions Name="CC-RX" Version="V3.04.00">
       <BuildMode Name="DefaultBuild" Active="True">
         <GeneralOptions>
           <SimultaneouslyBuild>true</SimultaneouslyBuild>
@@ -31,7 +36,9 @@
           <Option>-lang=c99</Option>
           <Option>-include=.</Option>
           <Option>-output=obj</Option>
+          <Option>-asm_path=%BuildModeName%</Option>
           <Option>-debug</Option>
+          <Option>-g_line</Option>
           <Option>-nologo</Option>
         </CompileOptions>
         <AssembleOptions>
@@ -39,6 +46,7 @@
           <Option>-fpu</Option>
           <Option>-output=%BuildModeName%\%FileLeaf%.obj</Option>
           <Option>-nologo</Option>
+          <Option>-debug</Option>
         </AssembleOptions>
         <LinkOptions>
           <Option>-output=%BuildModeName%\%ProjectName%.abs</Option>

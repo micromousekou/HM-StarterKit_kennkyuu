@@ -1,14 +1,15 @@
 品質記録情報
-2022年5月16日 16:21:56
+2022年5月23日 8:04:04
 
 ------ ビルド開始(HM_StarterKit, DefaultBuild) ------
 C:\Program Files (x86)\Renesas Electronics\CS+\CC\CC-RX\V3.04.00\Bin\ccrx.exe HM_StarterKit.c -isa=rxv1 -fpu -lang=c99 -include=. -output=obj -obj_path=DefaultBuild -asm_path=DefaultBuild -debug -g_line -optimize=0 -nologo
 parameters.h(4):W0520014:Extra text after expected end of preprocessing directive
+HM_StarterKit.c(135):W0521072:A declaration cannot have a label
 C:\Program Files (x86)\Renesas Electronics\CS+\CC\CC-RX\V3.04.00\Bin\rlink.exe -subcommand=DefaultBuild\HM_StarterKit.clnk
-W0561016:The evaluation version of CC-RX V3 is valid for the remaining 26 days. After that, link size limit (128 Kbyte) will be applied. Please consider purchasing the product.
-W0561016:The evaluation version of CC-RX V3 is valid for the remaining 26 days. After that, link size limit (128 Kbyte) will be applied. Please consider purchasing the product.
+W0561016:The evaluation version of CC-RX V3 is valid for the remaining 19 days. After that, link size limit (128 Kbyte) will be applied. Please consider purchasing the product.
+W0561016:The evaluation version of CC-RX V3 is valid for the remaining 19 days. After that, link size limit (128 Kbyte) will be applied. Please consider purchasing the product.
 Renesas Optimizing Linker Completed
------- ビルド終了(エラー:0個, 警告:3個)(HM_StarterKit, DefaultBuild) ------
+------ ビルド終了(エラー:0個, 警告:4個)(HM_StarterKit, DefaultBuild) ------
 
 --- CommandFile 1 ---
 DefaultBuild\HM_StarterKit.clnk :
@@ -47,8 +48,8 @@ DefaultBuild\HM_StarterKit.clnk :
 
 
 --- SHA1 hash value of output files ---
-C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\DefaultBuild\HM_StarterKit.abs: e78b40efe2999c33a770ce8494d4a442a8441165
-C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\DefaultBuild\HM_StarterKit.mot: 60efbfa2a5e247e499e135b8f22bbe0f8565cce4
+C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\DefaultBuild\HM_StarterKit.abs: 5b9d017387cea0c789360e69d6030f5d8ef4497d
+C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\DefaultBuild\HM_StarterKit.mot: 5e23d04d98ad7685948c264d41ff9d126be9a482
 
 
 --- システム情報 ---
@@ -76,13 +77,13 @@ C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\D
  C:\Program Files (x86)\Renesas Electronics\CS+\CC
 *メモリ使用量
  *プライベート・ワーキング・セット
-  525 MB
+  352 MB
  *GDIオブジェクト数
-  2145
+  2113
  *USERオブジェクト数
-  1506
+  1118
  *開いているファイル
-  10 editors, 10 files, 46 KB
+  10 editors, 10 files, 47 KB
 
 --- ビルド・ツール・プラグイン情報 ---
 RH850ビルド・ツールCC-RH用プラグイン
