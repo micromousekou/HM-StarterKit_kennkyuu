@@ -1,0 +1,526 @@
+;RX Family C/C++ Compiler (V3.04.00 [24 Nov 2021])  24-Jun-2022 14:45:51
+
+;*** CPU TYPE ***
+
+;-ISA=RXV1
+
+;*** COMMAND PARAMETER ***
+
+;HM_StarterKit.c
+;init.c
+;spi.c
+;interrupt.c
+;glob_var.c
+;run.c
+;interface.c
+;search.c
+;DataFlash.c
+;fast.c
+;adjust.c
+;-isa=rxv1
+;-fpu
+;-lang=c99
+;-include=.
+;-output=obj
+;-obj_path=DefaultBuild
+;-asm_path=DefaultBuild
+;-debug
+;-g_line
+;-optimize=0
+;-nologo
+
+		.glb	_con_wall
+		.glb	_run_mode
+		.glb	_tar_ang_vel
+		.glb	_tar_degree
+		.glb	_max_degree
+		.glb	_ang_vel
+		.glb	_max_ang_vel
+		.glb	_ang_acc
+		.glb	_accel
+		.glb	_max_speed
+		.glb	_speed
+		.glb	_tar_speed
+		.glb	_end_speed
+		.glb	_degree
+		.glb	_len_mouse
+		.glb	_len_target
+		.glb	_TURN_DIR
+		.glb	_I_tar_speed
+		.glb	_I_speed
+		.glb	_I_tar_ang_vel
+		.glb	_I_ang_vel
+		.glb	_straight
+		.glb	_turn
+		.glb	_wait_ms
+		.SECTION	P,CODE
+_straight:
+		.STACK	_straight=20
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",24
+		ADD #0FFFFFFF0H, R0
+		MOV.L R1, 0CH[R0]
+		MOV.L R2, 08H[R0]
+		MOV.L R3, 04H[R0]
+		MOV.L R4, [R0]
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",25
+		MOV.L #_I_tar_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L11:	; entry.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",26
+		MOV.L #_I_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L12:	; entry.split1
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",27
+		MOV.L #_I_tar_speed, R14
+		MOV.L #00000000H, [R14]
+L13:	; entry.split2
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",28
+		MOV.L #_I_speed, R14
+		MOV.L #00000000H, [R14]
+L14:	; entry.split3
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",30
+		MOV.L #_run_mode, R14
+		MOV.L #00000000H, [R14]
+L15:	; entry.split4
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",32
+		MOV.L #_con_wall, R1
+		MOV.L #00000001H, 34H[R1]
+L16:	; entry.split5
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",34
+		MOV.L #_len_target, R14
+		MOV.L 0CH[R0], [R14]
+L17:	; entry.split6
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",36
+		MOV.L #_end_speed, R14
+		MOV.L [R0], [R14]
+L18:	; entry.split7
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",38
+		MOV.L #_accel, R14
+		MOV.L 08H[R0], [R14]
+L19:	; entry.split8
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",40
+		MOV.L #_max_speed, R14
+		MOV.L 04H[R0], [R14]
+L20:	; entry.split9
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",0
+		MOV.L #0008C02CH, R14
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",43
+		BSET #06H, [R14].B
+L21:	; entry.split10
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",45
+		MOV.L #_end_speed, R14
+		MOV.L [R14], R14
+		FCMP #00000000H, R14
+		BNE L31
+L22:	; bb11
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",47
+		MOV.L #_len_target, R14
+		MOV.L [R14], R14
+		FADD #0C1200000H, R14
+		MOV.L #_len_mouse, R15
+		FSUB [R15].L, R14
+		MOV.L #_tar_speed, R15
+		MOV.L [R15], R15
+		FMUL R15, R15
+		MOV.L #_end_speed, R5
+		MOV.L [R5], R5
+		FMUL R5, R5
+		FSUB R5, R15
+		FMUL #447A0000H, R15
+		MOV.L #_accel, R5
+		MOV.L [R5], R5
+		FADD R5, R5
+		FDIV R5, R15
+		FCMP R14, R15
+		BN L22
+L23:	; bb30
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",49
+		MOV.L 08H[R0], R1
+		BNOT #1FH, R1
+		MOV.L #_accel, R14
+		MOV.L R1, [R14]
+		BRA L27
+L24:	; bb33
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",52
+		MOV.L #_tar_speed, R14
+		MOV.L #3DCCCCCDH, R15
+		FCMP [R14].L, R15
+		BLT L27
+L25:	; if_then_bb38
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",53
+		MOV.L #_accel, R14
+		MOV.L #00000000H, [R14]
+L26:	; if_then_bb38.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",54
+		MOV.L #_tar_speed, R14
+		MOV.L #3DCCCCCDH, [R14]
+L27:	; bb39
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",50
+		MOV.L #_len_mouse, R14
+		MOV.L [R14], R14
+		MOV.L #_len_target, R15
+		MOV.L [R15], R15
+		FADD #0BF800000H, R15
+		FCMP R15, R14
+		BN L24
+L28:	; bb46
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",57
+		MOV.L #_accel, R14
+		MOV.L #00000000H, [R14]
+L29:	; bb46.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",58
+		MOV.L #_tar_speed, R14
+		MOV.L #00000000H, [R14]
+L30:	; bb48
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",60
+		MOV.L #_speed, R14
+		MOV.L [R14], R14
+		FCMP #00000000H, R14
+		BGE L30
+		BRA L36
+L31:	; bb55
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",64
+		MOV.L #_len_target, R14
+		MOV.L [R14], R14
+		FADD #0C1200000H, R14
+		MOV.L #_len_mouse, R15
+		FSUB [R15].L, R14
+		MOV.L #_tar_speed, R15
+		MOV.L [R15], R15
+		FMUL R15, R15
+		MOV.L #_end_speed, R5
+		MOV.L [R5], R5
+		FMUL R5, R5
+		FSUB R5, R15
+		FMUL #447A0000H, R15
+		MOV.L #_accel, R5
+		MOV.L [R5], R5
+		FADD R5, R5
+		FDIV R5, R15
+		FCMP R14, R15
+		BN L31
+L32:	; bb74
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",67
+		MOV.L 08H[R0], R1
+		BNOT #1FH, R1
+		MOV.L #_accel, R14
+		MOV.L R1, [R14]
+		BRA L35
+L33:	; bb77
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",70
+		MOV.L #_end_speed, R14
+		MOV.L [R14], R14
+		MOV.L #_tar_speed, R15
+		FCMP [R15].L, R14
+		BLT L35
+L34:	; if_then_bb83
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",71
+		MOV.L #_accel, R14
+		MOV.L #00000000H, [R14]
+L35:	; bb85
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",68
+		MOV.L #_len_mouse, R14
+		MOV.L [R14], R14
+		MOV.L #_len_target, R15
+		FCMP [R15].L, R14
+		BN L33
+L36:	; if_break_bb92
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",77
+		MOV.L #_accel, R14
+		MOV.L #00000000H, [R14]
+L37:	; if_break_bb92.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",79
+		MOV.L #_len_mouse, R14
+		MOV.L #00000000H, [R14]
+		RTSD #10H
+_turn:
+		.STACK	_turn=28
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",82
+		ADD #0FFFFFFE8H, R0
+		MOV.L R1, 14H[R0]
+		MOV.L R2, 10H[R0]
+		MOV.L R3, 0CH[R0]
+		MOV.W R4, 0AH[R0]
+		MOV.L #000001F4H, R1
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",83
+		BSR _wait_ms
+L39:	; entry.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",84
+		MOV.L #_I_tar_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L40:	; entry.split1
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",85
+		MOV.L #_I_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L41:	; entry.split2
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",86
+		MOV.L #_I_tar_speed, R14
+		MOV.L #00000000H, [R14]
+L42:	; entry.split3
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",87
+		MOV.L #_I_speed, R14
+		MOV.L #00000000H, [R14]
+L43:	; entry.split4
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",88
+		MOV.L #_tar_degree, R14
+		MOV.L #00000000H, [R14]
+L44:	; entry.split5
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",90
+		MOV.L #00000000H, 04H[R0]
+L45:	; entry.split6
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",91
+		MOV.L #_accel, R14
+		MOV.L #00000000H, [R14]
+L46:	; entry.split7
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",92
+		MOV.L #_tar_speed, R14
+		MOV.L #00000000H, [R14]
+L47:	; entry.split8
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",93
+		MOV.L #_tar_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L48:	; entry.split9
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",95
+		MOV.L #_run_mode, R14
+		MOV.L #00000001H, [R14]
+L49:	; entry.split10
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",98
+		MOV.L #_TURN_DIR, R14
+		MOV.B 0AH[R0], [R14]
+L50:	; entry.split11
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",101
+		MOV.L #_degree, R14
+		MOV.L [R14], 04H[R0]
+L51:	; entry.split12
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",102
+		MOV.L #_tar_degree, R14
+		MOV.L #00000000H, [R14]
+L52:	; entry.split13
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",0
+		MOV.L #0008C02CH, R14
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",105
+		BSET #06H, [R14].B
+L53:	; entry.split14
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",106
+		MOV.W 0AH[R0], R1
+		CMP #01H, R1
+		BNE L58
+L54:	; if_then_bb
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",107
+		MOV.L #_ang_acc, R14
+		MOV.L 10H[R0], [R14]
+L55:	; if_then_bb.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",108
+		MOV.L #_max_ang_vel, R14
+		MOV.L 0CH[R0], [R14]
+L56:	; if_then_bb.split15
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",109
+		ITOF 14H[R0].L, R14
+		MOV.L #_max_degree, R15
+		MOV.L R14, [R15]
+L57:	; bb17
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",110
+		MOV.L #_tar_ang_vel, R14
+		MOV.L [R14], R14
+		FMUL R14, R14
+		MOV.L #_ang_acc, R15
+		MOV.L [R15], R15
+		FADD R15, R15
+		FDIV R15, R14
+		MOV.L #_max_degree, R15
+		MOV.L [R15], R15
+		MOV.L #_degree, R5
+		MOV.L [R5], R5
+		FSUB 04H[R0].L, R5
+		FSUB R5, R15
+		FMUL #40490FDBH, R15
+		FDIV #43340000H, R15
+		FCMP R15, R14
+		BN L57
+		BRA L63
+L58:	; if_else_bb
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",112
+		MOV.W 0AH[R0], R1
+		CMP #00H, R1
+		BNE L63
+L59:	; if_then_bb40
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",113
+		MOV.L 10H[R0], R1
+		BNOT #1FH, R1
+		MOV.L #_ang_acc, R14
+		MOV.L R1, [R14]
+L60:	; if_then_bb40.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",114
+		MOV.L 0CH[R0], R1
+		BNOT #1FH, R1
+		MOV.L #_max_ang_vel, R14
+		MOV.L R1, [R14]
+L61:	; if_then_bb40.split16
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",0
+		MOV.L #00000000H, R14
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",115
+		SUB 14H[R0].L, R14
+		ITOF R14, R14
+		MOV.L #_max_degree, R15
+		MOV.L R14, [R15]
+L62:	; bb49
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",116
+		MOV.L #_ang_acc, R14
+		MOV.L [R14], R14
+		MOV.L R14, R15
+		BNOT #1FH, R15
+		FSUB R14, R15
+		MOV.L #_tar_ang_vel, R14
+		MOV.L [R14], R14
+		FMUL R14, R14
+		FDIV R15, R14
+		MOV.L #_max_degree, R15
+		MOV.L [R15], R15
+		MOV.L #_degree, R5
+		MOV.L [R5], R5
+		FSUB 04H[R0].L, R5
+		FSUB R5, R15
+		FMUL #40490FDBH, R15
+		FDIV #0C3340000H, R15
+		FCMP R15, R14
+		BN L62
+L63:	; if_break_bb69
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",0
+		MOV.L #0008C02CH, R14
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",121
+		BSET #06H, [R14].B
+L64:	; if_break_bb69.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",122
+		MOV.W 0AH[R0], R1
+		CMP #01H, R1
+		BNE L73
+L65:	; if_then_bb75
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",123
+		MOV.L 10H[R0], R1
+		BNOT #1FH, R1
+		MOV.L #_ang_acc, R14
+		MOV.L R1, [R14]
+		BRA L69
+L66:	; bb78
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",126
+		MOV.L #_tar_ang_vel, R14
+		MOV.L [R14], R14
+		FCMP #3EA0D97CH, R14
+		BPZ L69
+L67:	; if_then_bb83
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",127
+		MOV.L #_ang_acc, R14
+		MOV.L #00000000H, [R14]
+L68:	; if_then_bb83.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",128
+		MOV.L #_tar_ang_vel, R14
+		MOV.L #3EA0D97CH, [R14]
+L69:	; bb85
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",125
+		MOV.L #_max_degree, R14
+		MOV.L #_degree, R15
+		MOV.L [R15], R15
+		FSUB 04H[R0].L, R15
+		FCMP [R14].L, R15
+		BN L66
+L70:	; bb93
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",132
+		MOV.L #_ang_acc, R14
+		MOV.L #00000000H, [R14]
+L71:	; bb93.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",133
+		MOV.L #_tar_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L72:	; bb93.split17
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",134
+		MOV.L #_tar_degree, R14
+		MOV.L #_max_degree, R15
+		MOV.L [R15], [R14]
+		BRA L82
+L73:	; if_else_bb95
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",136
+		MOV.W 0AH[R0], R1
+		CMP #00H, R1
+		BNE L82
+L74:	; if_then_bb101
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",137
+		MOV.L #_ang_acc, R14
+		MOV.L 10H[R0], [R14]
+		BRA L78
+L75:	; bb103
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",140
+		MOV.L #_tar_ang_vel, R14
+		MOV.L [R14], R14
+		BNOT #1FH, R14
+		FCMP #3EA0D97CH, R14
+		BPZ L78
+L76:	; if_then_bb109
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",141
+		MOV.L #_ang_acc, R14
+		MOV.L #00000000H, [R14]
+L77:	; if_then_bb109.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",142
+		MOV.L #_tar_ang_vel, R14
+		MOV.L #0BEA0D97CH, [R14]
+L78:	; bb111
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",139
+		MOV.L #_max_degree, R14
+		MOV.L [R14], R14
+		MOV.L #_degree, R15
+		MOV.L [R15], R15
+		FSUB 04H[R0].L, R15
+		FCMP R15, R14
+		BN L75
+L79:	; bb119
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",145
+		MOV.L #_ang_acc, R14
+		MOV.L #00000000H, [R14]
+L80:	; bb119.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",146
+		MOV.L #_tar_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L81:	; bb119.split18
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",147
+		MOV.L #_tar_degree, R14
+		MOV.L #_max_degree, R15
+		MOV.L [R15], [R14]
+L82:	; bb124
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",152
+		MOV.L #_ang_vel, R14
+		MOV.L [R14], R14
+		FCMP #3D4CCCCDH, R14
+		BGE L84
+L83:	; bb128
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",0
+		MOV.L #_ang_vel, R14
+		MOV.L #0BD4CCCCDH, R15
+		FCMP [R14].L, R15
+		BLT L85
+L84:	; bb132
+		MOV.L #00000001H, [R0]
+		BRA L86
+L85:	; bb133
+		MOV.L #00000000H, [R0]
+L86:	; bb134
+		MOV.L [R0], R1
+		CMP #00H, R1
+		BNE L82
+L87:	; bb139
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",154
+		MOV.L #_tar_ang_vel, R14
+		MOV.L #00000000H, [R14]
+L88:	; bb139.split
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",155
+		MOV.L #_ang_acc, R14
+		MOV.L #00000000H, [R14]
+L89:	; bb139.split19
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",157
+		MOV.L #_len_mouse, R14
+		MOV.L #00000000H, [R14]
+L90:	; bb139.split20
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",0
+		MOV.L #000001F4H, R1
+		.LINE  "C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\run.c",158
+		BSR _wait_ms
+		RTSD #18H
+		.END

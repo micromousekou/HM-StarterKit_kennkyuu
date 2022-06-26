@@ -65,7 +65,7 @@ void main(void)
 
 		switch(mode){
 			
-			case 0:
+			case 1:
 				/****************************************
 				*MODE LED STATE				*
 				*					*
@@ -122,7 +122,7 @@ void main(void)
 				
 				break;
 				
-			case 1:
+			case 2:
 				/****************************************
 				*MODE LED STATE				*
 				*					*
@@ -131,48 +131,79 @@ void main(void)
 				*					*
 				*****************************************/
 				
-				//電圧確認-------------------------------------
-				int VBAT;
-				int V;
-				//SCI_printf("V_BAT = %d\n\r",S12AD.ADDR9);
-				VBAT=S12AD.ADDR9;
-				V=VBAT*3.3*2/4.096;
-				//SCI_printf("VBAT = %d\n",VBAT);//V_BAT確認
-				SCI_printf("V = %d[mV]\n\r",V);
-				BEEP();
-				SCI_printf("BuzzerON \n\r");
-				//---------------------------------------------
 				
-				//モータの回転
-				//MOT_POWER_ON; //
-				SCI_printf("Motor ON\n\r");
+				//センサーの前に手をかざしてスタート
+				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
+					BEEP();
+					SCI_printf("BuzzerON \n\r");
+					//壁制御を有効にする
+					con_wall.enable = true;
+					
+					
+					//電圧確認-------------------------------------
+					//int VBAT;
+					int V;
+					//SCI_printf("V_BAT = %d\n\r",S12AD.ADDR9);
+					//VBAT=S12AD.ADDR9;
+					V=S12AD.ADDR9*3.3*2/4.096;
+					//SCI_printf("VBAT = %d\n",VBAT);//V_BAT確認
+					SCI_printf("V = %d[mV]\n\r",V);
+					
+					//---------------------------------------------
 				
-				MOT_OUT_R=240; //最大値は240*Duty
-				MOT_OUT_L=240; //最大値は240*Duty
-				
-				SCI_printf("Finishing Motor Preparation\n\r");
-				SCI_printf("speed_r: %d\n\r", (int)(speed_r*100));
-				SCI_printf("speed_l: %d\n\r", (int)(speed_l*100));
-				
-				
-				while(timer<5000);//時間待機(n/1000 s)
-				
-				
-				
-				
-				SCI_printf("timer count%d\n\r",timer);
-				//SCI_printf("speed_r: %d\n\r", (int)(speed_r*100));
-				//SCI_printf("speed_l: %d\n\r", (int)(speed_l*100));
-				
-				MOT_OUT_R=0; //最大値は240
-				MOT_OUT_L=0; //最大値は240
-				MOT_POWER_OFF;
-				BEEP();
-				SCI_printf("Finishing BuzzerON \n\r");
-				
-				
-				
-				break;
+					//モータの回転
+					
+					
+					MOT_OUT_R=120; //最大値は240
+					MOT_OUT_L=120; //最大値は240
+					
+					SCI_printf("Finishing Motor Preparation\n\r");
+					MOT_POWER_ON; //
+					SCI_printf("Motor ON\n\r");
+					SCI_printf("speed_r: %d,", (int)(speed_r*100));
+					SCI_printf("speed_l: %d\n\r", (int)(speed_l*100));
+					
+					timer=0;
+					SCI_printf("timer=0:%d\n\r",timer);
+					
+					//int encoderR[100],encoderL[100];
+					while(timer<500){//時間待機(n/1000 s)
+						SCI_printf("%d,",(int)(speed_l*100));
+						SCI_printf("%d\n\r",(int)(speed_r*100));
+					
+						//for(i = 0; i < 100; i++){
+							
+							//SCI_printf("%d,",i);//time[msec]
+							//SCI_printf("%d\n\r",locate_r);
+							//SCI_printf("%d\n\r",(int)(speed_r*100));
+							//SCI_printf("%d\n\r",(int)(speed_l*100));
+									
+						//}
+							
+						
+						
+						//SCI_printf("R:%d \n\r",locate_r);//エンコーダ右の値を取得
+						//SCI_printf("L:%d \n\r",locate_l);//エンコーダ左の値を取得
+					}
+					
+					SCI_printf("timer count%d\n\r",timer);
+					//SCI_printf("speed_r: %d\n\r", (int)(speed_r*100));
+					//SCI_printf("speed_l: %d\n\r", (int)(speed_l*100));
+					
+					MOT_OUT_R=0; //最大値は240
+					MOT_OUT_L=0; //最大値は240
+					MOT_POWER_OFF;
+					BEEP();
+					
+					SCI_printf("Finishing BuzzerON \n\r");
+					
+					timer=0;
+					
+					while(timer<2000);
+					SCI_printf("timer=:%d\n\r",timer);
+					break;
+					
+				}
 				
 			case 3:
 				/****************************************
@@ -182,9 +213,25 @@ void main(void)
 				*	O	O	X	X	*
 				*					*
 				*****************************************/
-			
 				
+				//ブザーの確認
+			
+				//センサーの前に手をかざしてスタート
+				if(sen_fr.value + sen_fl.value + sen_r.value + sen_l.value > SEN_DECISION * 4){
+					
+					//壁制御を有効にする
+					con_wall.enable = true;
+					
+					
+					timer=0;
+					while(timer<3000){
+					BEEP();}
+					SCI_printf("timer=0:%d\n\r",timer);
+					
+					
+					
 				break;
+				}
 				
 			case 4:
 				/****************************************
@@ -194,6 +241,10 @@ void main(void)
 				*	X	X	O	X	*
 				*					*
 				*****************************************/
+				
+				
+				
+				break;
 			
 				
 				

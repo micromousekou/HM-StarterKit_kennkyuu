@@ -1,4 +1,4 @@
-;RX Family C/C++ Compiler (V3.04.00 [24 Nov 2021])  16-May-2022 14:47:04
+;RX Family C/C++ Compiler (V3.04.00 [24 Nov 2021])  30-May-2022 15:32:44
 
 ;*** CPU TYPE ***
 
@@ -6,25 +6,7 @@
 
 ;*** COMMAND PARAMETER ***
 
-;dbsct.c
-;intprg.c
-;HM_StarterKit.c
-;resetprg.c
-;sbrk.c
-;vecttbl.c
-;sci.c
 ;init.c
-;spi.c
-;interrupt.c
-;glob_var.c
-;run.c
-;interface.c
-;misc.c
-;search.c
-;DataFlash.c
-;fast.c
-;i2c.c
-;adjust.c
 ;-isa=rxv1
 ;-fpu
 ;-lang=c99

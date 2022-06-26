@@ -87,7 +87,7 @@ void main(void)
 					log_flag = 1;
 					log_timer = 0;
 					search_adachi(GOAL_X,GOAL_Y);		//ゴールまで足立法
-					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);			//ゴールしたら180度回転する
+					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);	//ゴールしたら180度回転する
 					mypos.dir = (mypos.dir+6) % 4;		//方角を更新
 					map_write();
 					BEEP();
@@ -95,8 +95,8 @@ void main(void)
 					BEEP();//ゴールしたことをアピール
 					wait_ms(100);
 					BEEP();//ゴールしたことをアピール
-					search_adachi(0,0);			//スタート地点まで足立法で帰ってくる
-					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);			//帰ってきたら180度回転	
+					search_adachi(STARTL_X,STARTL_Y);	//スタート地点まで足立法で帰ってくる
+					turn(180,TURN_ACCEL,TURN_SPEED,RIGHT);	//帰ってきたら180度回転	
 					MOT_POWER_OFF;
 					map_write();
 					log_flag = 0;

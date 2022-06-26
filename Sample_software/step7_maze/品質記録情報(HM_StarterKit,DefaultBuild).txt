@@ -1,13 +1,56 @@
 品質記録情報
-2022年6月27日 7:34:07
+2022年6月24日 15:00:31
 
 ------ ビルド開始(HM_StarterKit, DefaultBuild) ------
------- ビルド終了(エラー:0個, 警告:0個)(HM_StarterKit, DefaultBuild) ------
+C:\Program Files (x86)\Renesas Electronics\CS+\CC\CC-RX\V3.04.00\Bin\ccrx.exe HM_StarterKit.c -isa=rxv1 -fpu -lang=c99 -include=. -output=obj -obj_path=DefaultBuild -asm_path=DefaultBuild -debug -g_line -optimize=0 -nologo
+parameters.h(4):W0520014:Extra text after expected end of preprocessing directive
+HM_StarterKit.c(91):W0520188:Enumerated type mixed with another type
+HM_StarterKit.c(131):W0520188:Enumerated type mixed with another type
+C:\Program Files (x86)\Renesas Electronics\CS+\CC\CC-RX\V3.04.00\Bin\rlink.exe -subcommand=DefaultBuild\HM_StarterKit.clnk
+W0561017:The evaluation period of CC-RX V3 has expired. Please consider purchasing the product.
+W0561017:The evaluation period of CC-RX V3 has expired. Please consider purchasing the product.
+Renesas Optimizing Linker Completed
+------ ビルド終了(エラー:0個, 警告:5個)(HM_StarterKit, DefaultBuild) ------
+
+--- CommandFile 1 ---
+DefaultBuild\HM_StarterKit.clnk :
+-library=DefaultBuild\HM_StarterKit.lib
+-input=DefaultBuild\dbsct.obj
+-input=DefaultBuild\intprg.obj
+-input=DefaultBuild\HM_StarterKit.obj
+-input=DefaultBuild\resetprg.obj
+-input=DefaultBuild\sbrk.obj
+-input=DefaultBuild\vecttbl.obj
+-input=DefaultBuild\sci.obj
+-input=DefaultBuild\init.obj
+-input=DefaultBuild\spi.obj
+-input=DefaultBuild\interrupt.obj
+-input=DefaultBuild\glob_var.obj
+-input=DefaultBuild\run.obj
+-input=DefaultBuild\interface.obj
+-input=DefaultBuild\misc.obj
+-input=DefaultBuild\search.obj
+-input=DefaultBuild\DataFlash.obj
+-input=DefaultBuild\fast.obj
+-input=DefaultBuild\i2c.obj
+-input=DefaultBuild\adjust.obj
+-noprelink
+-output=DefaultBuild\HM_StarterKit.abs
+-list=DefaultBuild\HM_StarterKit.map
+-nooptimize
+-start=B_1,R_1,B_2,R_2,B,R,SU,SI/04,PResetPRG/0FFF80000,C_1,C_2,C,C$DSEC,C$BSEC,C$INIT,C$VTBL,C$VECT,D_1,D_2,D,P,PIntPRG,W_1,W_2,W,L/0FFF80100,FIXEDVECT/0FFFFFFD0
+-rom=D=R,D_1=R_1,D_2=R_2
+-nologo
+-end
+-input=DefaultBuild\HM_StarterKit.abs
+-output=DefaultBuild\HM_StarterKit.mot
+-form=stype
+-exit
 
 
 --- SHA1 hash value of output files ---
-C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\DefaultBuild\HM_StarterKit.abs: e310fcdf010629e9c51ebf51280c7e5ed3c70d2f
-C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\DefaultBuild\HM_StarterKit.mot: deee5647b2cb772dc7969b450d043361f5ec6b03
+C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\DefaultBuild\HM_StarterKit.abs: 498de2e96a42d2fc474ec2388ff789703ea8eb62
+C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\DefaultBuild\HM_StarterKit.mot: a232a0c84ba7e48663ae1241353d21b3adb3f10c
 
 
 --- システム情報 ---
@@ -35,13 +78,13 @@ C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\D
  C:\Program Files (x86)\Renesas Electronics\CS+\CC
 *メモリ使用量
  *プライベート・ワーキング・セット
-  419 MB
+  415 MB
  *GDIオブジェクト数
-  2156
+  2028
  *USERオブジェクト数
-  1171
+  1068
  *開いているファイル
-  12 editors, 12 files, 53 KB
+  4 editors, 4 files, 37 KB
 
 --- ビルド・ツール・プラグイン情報 ---
 RH850ビルド・ツールCC-RH用プラグイン
@@ -177,7 +220,7 @@ IronPythonコンソール・プラグイン
   DeviceInformation.dll
 
 --- メイン・プロジェクト情報 ---
-C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\test0\HM_StarterKit.mtpj
+C:\Users\kouta\Desktop\micromouse\HM-StarterKit_kennkyuu\Sample_software\step7_maze\HM_StarterKit.mtpj
 マイクロコントローラ情報
  *R5F5631MDxFL
   *ファイル名: バージョン
